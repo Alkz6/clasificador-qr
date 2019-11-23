@@ -1,1 +1,77 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12 m6 l6 xl6" id="qrImage">
+          <img class="materialboxed responsive-img" width="550" src="">
+        </div>
+        <div class="col s12 m6 l6 lx6">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="name" type="text" class="validate">
+                    <label for="name">Nombre Etiqueta</label>
+                </div>
+                <div class="input-field col s12">
+                    <textarea id="description" class="materialize-textarea"></textarea>
+                    <label for="description">Descripción</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="pdfSource" type="text" class="validate">
+                    <label for="pdfSource">URL PDF</label>
+                </div>
+            </div>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.materialboxed');
+            var instances = M.Materialbox.init(elems, {});
+        });
+    </script>
+    <script src="{% static 'js/qrcode.js' %}"></script>
+    <script>
+        let typeNumber = 0;
+        let errorCorrectionLevel = 'L';
+        
+        let name = '';
+        let pdf = '';
+        let description = '';
+        
+        const generateQR = function(){
+            let qr = qrcode(typeNumber, errorCorrectionLevel);
+            let data = `Equipo: ${name}
+
+            Descripción: ${description}
+
+            ${pdf}`;
+            qr.addData(data);
+            qr.make();
+            document.getElementById('qrImage').innerHTML = qr.createImgTag(6);
+
+        }
+        const nameTypeHandler = function(e){
+            name = e.target.value;
+            generateQR();
+        }
+        const descriptionTypeHandler = function(e){
+            description = e.target.value;
+            generateQR();
+        }
+        const pdfTypeHandler = function(e){
+            pdf = e.target.value;
+            generateQR();
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#name').addEventListener('input', nameTypeHandler);
+            document.querySelector('#description').addEventListener('input', descriptionTypeHandler);
+            document.querySelector('#pdfSource').addEventListener('input', pdfTypeHandler);
+        });
+    </script>
+{% endblock %}

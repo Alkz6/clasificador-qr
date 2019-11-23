@@ -13,6 +13,9 @@
         body{
             font-family: 'Alata', sans-serif;
         }
+        .push-down{
+            padding-top: 1.5rem;
+        }
     </style>
 </head>
 <body>
@@ -35,8 +38,9 @@
         {% comment %} <li><a href="collapsible.html">Javascript</a></li>
         <li><a href="mobile.html">Mobile</a></li> {% endcomment %}
     </ul>
-    <div class="container">
-
+    <div class="container push-down">
+        {% block content %}
+        {% endblock %}
     </div>
     
     <script src="{% static 'js/materialize.min.js' %}"></script>
@@ -47,5 +51,7 @@
             var instances = M.Sidenav.init(elems, options);
         });
     </script>
+    {% block js %}
+    {% endblock %}
 </body>
 </html>
