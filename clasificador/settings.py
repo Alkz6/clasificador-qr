@@ -26,7 +26,7 @@ SECRET_KEY = 'fd85tit=i6@a0-m6zq-1_^^diu!p*h*8lo*g@kp-0a(7ojd9@9'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'clasificador-qr.herokuapp.com',
+    '*',
 ]
 
 
